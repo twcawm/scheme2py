@@ -4,6 +4,7 @@ class Tokenizer:
   re_symbol = r'[' + re.escape(r"|".join(l_symbols)) + r']'
   re_identifier = r"[\w]+" #+ means at least 1.  \w means word character
   re_number = r"[\d]+" #matches 1, 1., .1, 0.1, etc
+  re_number = r"[0-9]+\.?[0-9]*|\.[0-9]+"
   re_string_const = r'"[^"\n]*"' #starts with ".  [^...] denotes COMPLEMENT of a group. so match any number of anything except newlines and other ", then end with ".
   #instead of having a regex for keywords, we could just use identifier to capture keywords, then test all identifiers for keyword membership.
 
