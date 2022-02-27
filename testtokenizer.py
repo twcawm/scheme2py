@@ -1,7 +1,7 @@
 import schtoken
 
 tok = schtoken.Tokenizer()
-tok.set_input("(+ 2 3); hello there \n #|(+ 2 3)|#\n (+ 4 5) (+ .5 5.)")
+tok.set_input("(+ 0 1); hello there \n #|(+ 2 3)|#\n (+ 4 5) (+ .6 7.8)")
 print("tok.input is: ")
 print(tok.input)
 tok.remove_comments()

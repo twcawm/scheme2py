@@ -1,14 +1,41 @@
 import re
+
+'''
+note: I have found that combining regex can be quite tricky
+for example:
+tok.input is:
+(+ 2 3)
+ (+ 4 5) (+ .5 5.9)
+when all we use is our number regex in isolation "\d*\.?\d+" , we get fine results:
+lex element list:
+['2', '3', '4', '5', '.5', '5.9']
+but when we use this same number regex combined with the other regexes, we do not:
+[\(\)\+\-]|[\w]+|\d*\.?\d+|"[^"\n]*"
+lex element list:
+['(', '+', '2', '3', ')', '(', '+', '4', '5', ')', '(', '+', '.5', '5', '.9', ')']
+
+the 5.9 is incorrectly split into '5' and '.9', but only when the number regex is combined with OR | to the other regex.  this is confusing.
+
+originally I tried to solve this is to use negative lookahead on the integer regex.
+
+but I eventually found that the reason was completely different: the order in which I had combined the identifier and word regexes was the cause.  in particular, \w can match digits.  therefore \w was matching some decimal numbers, resulting in things like 5.9 being split into 5 and .9.  therefore I switched the order of identifier and word regexes in the combination.  my takeaway from this is that combining regexes into larger regexes is very tricky and error-prone.
+'''
+
+
 class Tokenizer:
   l_symbols = [r"(", r")", r"+", r"-"] #have to update this later
-  re_symbol = r'[' + re.escape(r"|".join(l_symbols)) + r']'
+  re_symbol = r'[' +re.escape(r"".join(l_symbols)) + r']'
   re_identifier = r"[\w]+" #+ means at least 1.  \w means word character
-  re_number = r"[\d]+" #matches 1, 1., .1, 0.1, etc
-  re_number = r"[0-9]+\.?[0-9]*|\.[0-9]+"
+  #re_number = r"[\d]+" #matches 1, 1., .1, 0.1, etc
+  #re_number = r"[0-9]+\.?[0-9]*|\.[0-9]+"
+  re_number = r"\d*\.\d+|\d+(?!\.)"
+  re_number = r"\d*\.\d+|\d+(?!\.)"
   re_string_const = r'"[^"\n]*"' #starts with ".  [^...] denotes COMPLEMENT of a group. so match any number of anything except newlines and other ", then end with ".
   #instead of having a regex for keywords, we could just use identifier to capture keywords, then test all identifiers for keyword membership.
 
-  re_lex_element = "|".join([re_symbol, re_identifier, re_number, re_string_const])
+  re_lex_element = "|".join([re_symbol, re_number, re_identifier, re_string_const])
+  
+  #re_lex_element = re_number
   print(re_lex_element)
   compiled_lex_element = re.compile(re_lex_element)
 
