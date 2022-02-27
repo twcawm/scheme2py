@@ -1,5 +1,16 @@
 import re
 class Tokenizer:
+  l_symbols = [r"(", r")", r"+", r"-"] #have to update this later
+  re_symbol = r'[' + re.escape(r"|".join(l_symbols)) + r']'
+  re_identifier = r"[\w]+" #+ means at least 1.  \w means word character
+  re_number = r"[\d]+" #matches 1, 1., .1, 0.1, etc
+  re_string_const = r'"[^"\n]*"' #starts with ".  [^...] denotes COMPLEMENT of a group. so match any number of anything except newlines and other ", then end with ".
+  #instead of having a regex for keywords, we could just use identifier to capture keywords, then test all identifiers for keyword membership.
+
+  re_lex_element = "|".join([re_symbol, re_identifier, re_number, re_string_const])
+  print(re_lex_element)
+  compiled_lex_element = re.compile(re_lex_element)
+
   def __init__(self, filename = None):
     self.input = None
     self.l_tokens = None
@@ -8,11 +19,12 @@ class Tokenizer:
    
   def set_input(self, input_string):
     self.input = input_string
+    self.remove_comments()
     self.tokenize()
 
 
   def tokenize(self):
-    pass
+    self.l_lex_elements = self.compiled_lex_element.findall(self.input)
 
   # there are 2 types of comments in scheme: line and block comments https://web.mit.edu/scheme_v9.2/doc/mit-scheme-ref/Comments.html
   #line comments begin with a semicolon ;
