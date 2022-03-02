@@ -1,11 +1,16 @@
 import re
 
+class Token:
+  def __init__(self):
+    self.type = None
+    self.value = None
+
 class Tokenizer:
   l_symbols = [r"(", r")", r"+", r"-"] #have to update this later
   re_symbol = r'[' +re.escape(r"".join(l_symbols)) + r']'
+  re_number = r"\d*\.\d+|\d+(?!\.)"
   re_identifier = r"[\w]+" #+ means at least 1.  \w means word character.
     #identifier may have to be updated since scheme allows more identifiers than typical.
-  re_number = r"\d*\.\d+|\d+(?!\.)"
   re_string_const = r'"[^"\n]*"' #starts with ".  [^...] denotes COMPLEMENT of a group. so match any number of anything except newlines and other ", then end with ".
   #instead of having a regex for keywords, we could just use identifier to capture keywords, then test all identifiers for keyword membership.
 
@@ -15,18 +20,36 @@ class Tokenizer:
 
   def __init__(self, filename = None):
     self.input = None
+    self.l_lexemes = None
     self.l_tokens = None
     #later: what to do if filename is not None
-
    
   def set_input(self, input_string):
     self.input = input_string
     self.remove_comments()
     self.tokenize()
 
-
   def tokenize(self):
-    self.l_lex_elements = self.compiled_lex_element.findall(self.input)
+    self.l_lexemes = self.compiled_lex_element.findall(self.input)
+    self.l_tokens = [self.lex2token(tok) for tok in self.l_lexemes]
+
+  def lex2token(self, lex):
+    tok = Token()
+    if(re.match(self.re_symbol, lex)):
+      tok.type = "symbol" 
+      tok.value = lex
+    elif(re.match(self.re_number, lex)):
+      tok.type = "number"
+      tok.value = float(lex)
+    elif(re.match(self.re_identifier, lex)):
+      tok.type = "identifier"
+      tok.value = lex
+    elif(re.match(self.re_string_const, lex)):
+      tok.type = "string"
+      tok.value = lex
+    else:
+      print("error in lex2token: lexeme not recognized")
+    return tok
 
   # there are 2 types of comments in scheme: line and block comments https://web.mit.edu/scheme_v9.2/doc/mit-scheme-ref/Comments.html
   #line comments begin with a semicolon ;

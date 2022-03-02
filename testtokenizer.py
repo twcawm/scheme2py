@@ -9,9 +9,12 @@ tok.set_input(("(+ 0 (+ 1 2)); hello there \n #|(+ 2 3)|#\n (+ 4 5) (+ .6 7.8)"
 print("tok.input is: ")
 print(tok.input)
 print("lex element list:")
-print(tok.l_lex_elements)
+print(tok.l_lexemes)
+print([(t.type, t.value) for t in tok.l_tokens])
 
-psr.set_input(tok.l_lex_elements)
+print([t.value for t in tok.l_tokens])
+
+psr.set_input(tok.l_lexemes)
 ast = psr.get_syntax_tree()
 print("syntax tree:")
 print(ast)
