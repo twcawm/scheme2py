@@ -14,7 +14,8 @@ print([(t.type, t.value) for t in tok.l_tokens])
 
 print([t.value for t in tok.l_tokens])
 
-psr.set_input(tok.l_lexemes)
+psr.set_input(tok.l_tokens)
 ast = psr.get_syntax_tree()
 print("syntax tree:")
-print(ast)
+print(psr.lex_tree)
+psr.print_token_tree()
