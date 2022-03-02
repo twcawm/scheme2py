@@ -41,7 +41,7 @@ def evals(expr, env=genv):
   elif(isinstance(expr, list)):
     if(expr[0].value == "define"):
       (_define, ident, ex) = expr
-      print("in define " + ident.value + str(ex.value))
+      print("in define " + ident.value + str(ex))
       env[ident.value] = evals(ex, env) 
       print("after define, environment is " + str(env.keys()))
     elif(expr[0].value in env):
