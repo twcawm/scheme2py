@@ -2,9 +2,6 @@ import copy
 import schtoken
 class Parser:
 
-  l_binary = ['+', '-', '*', '/'] #some initial operations to get started with
-  #on second thought, we might not need these in the parser.  might use these for evaluating
-
   def __init__(self):
     self.input = None
     self.l_tokens = None

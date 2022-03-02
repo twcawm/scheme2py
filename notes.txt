@@ -1,4 +1,4 @@
-note: I have found that combining regex can be quite tricky
+note: combining regex can be tricky (most importantly, order matters)
 for example:
 tok.input is:
 (+ 2 3)
@@ -23,10 +23,7 @@ split into 5 and .9.  therefore I switched the order of identifier
 and word regexes in the combination.  my takeaway from this is that 
 combining regexes into larger regexes is very tricky and error-prone.
 
-
 also note:
 technically in Scheme, an identifier is any "sequence of non-delimiter
 characters that does not begin with either of the characters `#' or `,'
 and is not syntactically a number"
-but here, we'll just make it simpler and call any sequence of 
-characters made of word characters [\w]+ an identifier.
