@@ -6,7 +6,7 @@ class Token:
     self.value = None
 
 class Tokenizer:
-  l_symbols = [r"(", r")", r"+", r"-"] #have to update this later
+  l_symbols = [r"(", r")", r"+", r"-", r"*", r"/"] #have to update this later
   re_symbol = r'[' +re.escape(r"".join(l_symbols)) + r']'
   re_number = r"\d*\.\d+|\d+(?!\.)"
   re_identifier = r"[\w]+" #+ means at least 1.  \w means word character.

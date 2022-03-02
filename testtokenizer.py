@@ -5,7 +5,7 @@ import scheval
 tok = schtoken.Tokenizer()
 psr = schparser.Parser()
 
-tok.set_input(("(- 2  1) (begin (+ 0 (+ (- 2 3 4 ) 5))); hello there \n #|(+ 2 3)|#\n (+ 4 5) (+ .6 7.8)"
+tok.set_input(("(begin (define a 1) (+ a a) (* (- 1 2) a)) (begin (+ 0 (+ (- 2 3 4 ) 5))); hello there \n #|(+ 2 3)|#\n (+ 4 5) (+ .6 7.8)"
                "\n(define a 34.55)"))
 print("tok.input is: ")
 print(tok.input)
@@ -21,4 +21,4 @@ print("syntax tree:")
 print(psr.lex_tree)
 psr.print_token_tree()
 
-print(scheval.evals(ast,{}))
+print(scheval.evals(ast))
