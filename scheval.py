@@ -57,18 +57,22 @@ def evals(expr, env=genv):
       return env.lookup(expr.value)
 
   elif(isinstance(expr, list)):
-    if(expr[0].value == "define"):
+    if((not isinstance(expr[0],list)) and expr[0].value == "define"):
       (_define, ident, ex) = expr
       print("in define " + ident.value + str(ex))
       env[ident.value] = evals(ex, env) 
       print("after define, environment is " + str(env.keys()))
-    elif(expr[0].value == "lambda"):
+    elif((not isinstance(expr[0],list)) and expr[0].value == "lambda"):
       (_lambda, params_tok, body) = expr
       params = [p.value for p in params_tok] #get values out of the list of tokens
       return Proc(params, body, env)
     else:#(expr[0].value in env):
       #print("running procedure call")
-      f = env.lookup(expr[0].value) #get a reference to the operator
+      if(isinstance(expr[0], list)):
+        f = evals(expr[0], env) #recurse til expr[0] is a token (with a value)
+      else: #is not a list, so is a token
+        f = env.lookup(expr[0].value) #get a reference to the operator
+        #f = evals(expr[0].value, env)
       print("evaluating " + str(f))
       l_args = [evals(ex, env) for ex in expr[1:]]
       result = f(*l_args)
