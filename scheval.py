@@ -2,16 +2,22 @@
 import schtoken
 import operator
 
+def fbegin(*l): #fbegin here is defined out of convenience to fit the same format as other operators
+  return l[-1]
+
 d_binary = {'+': operator.add,
             '-': operator.sub,
             '*': operator.mul,
             '/': operator.truediv,
             'expt': operator.pow,
             '<': operator.lt,
-            '>': operator.gt,
-            'begin': lambda *l: l[-1] #this is tricky - inspired by norvig.com/lispy.html
-                     #begin 
+            'begin': fbegin, #this is tricky - inspired by norvig.com/lispy.html
+            '>': operator.gt
             } 
+
+#we need the varadic parameter because of how we make use of this as an operator.
+# typically in this implementation we call operators with fbegin(old_result, new_arg) 
+# for the special case of fbegin, we expect to return the result new_arg, ignoring old_result.
 
 class Env(dict):
   def __init__(self, enclosing = None):

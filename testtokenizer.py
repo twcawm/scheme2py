@@ -5,8 +5,8 @@ import scheval
 tok = schtoken.Tokenizer()
 psr = schparser.Parser()
 
-#tok.set_input(("(begin (define a 1.1 ) (define b (+ 2 3)) (* a b)) (begin (+ 0 (+ (- 2 3 4 ) 5))); hello there \n #|(+ 2 3)|#\n (+ 4 5) (+ .6 7.8)"))
-tok.set_input("(< 4 5)")
+tok.set_input(("(begin (define a 1.1 ) (define b (+ 2 3)) (* a b)) (begin (+ 0 (+ (- 2 3 4 ) 5))); hello there \n #|(+ 2 3)|#\n (+ 4 5) (+ .6 7.8)"))
+#tok.set_input("(< 4 5)")
 print("tok.input is: ")
 print(tok.input)
 print("lex element list:")
