@@ -13,4 +13,8 @@ and to handle local variables (e.g. in functions) we allow environments to "stac
 
 this project is purely for educational/entertainment purposes so I probably do not aim to make this interpreter "complete" for the entire Scheme language.  We'll start with getting some simple things working and see how it goes.
 
-the interpreter can handle user-defined first-class functions and closures.
+the interpreter can currently handle user-defined first-class functions and closures.
+
+many language details are left out for brevity - the main idea here is to demonstrate the function/closure functionality.
+
+todo: a few updates to lexical analysis are needed.  for example "circle-area" was not parsed as a single identifier.  some attention to detail is needed to lex identifiers correctly - will have to do some research on those specifications.
