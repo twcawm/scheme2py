@@ -1,6 +1,9 @@
 #rudimentary evaluator
 import schtoken
 import operator
+import schparser #for testing purposes
+
+psr = schparser.Parser()
 
 def fbegin(*l): #fbegin here is defined out of convenience to fit the same format as other operators
   return l[-1]
@@ -53,10 +56,10 @@ def evals(expr, env=genv):
   if(isinstance(expr, schtoken.Token)):
     if(expr.type == "number"):
       return expr.value
-    elif(expr.type == "identifier"):
+    elif(expr.type in ["identifier", "symbol"]):
       return env.lookup(expr.value)
 
-  elif(isinstance(expr, list)):
+  elif(isinstance(expr, list)): #it might be possible to clear up the conditional logic here / refactor
     if((not isinstance(expr[0],list)) and expr[0].value == "define"):
       (_define, ident, ex) = expr
       print("in define " + ident.value + str(ex))
@@ -66,16 +69,18 @@ def evals(expr, env=genv):
       (_lambda, params_tok, body) = expr
       params = [p.value for p in params_tok] #get values out of the list of tokens
       return Proc(params, body, env)
-    else:#(expr[0].value in env):
+    else:#(expr[0].value in env): #run a procedure call
       #print("running procedure call")
       if(isinstance(expr[0], list)):
         f = evals(expr[0], env) #recurse til expr[0] is a token (with a value)
       else: #is not a list, so is a token
-        f = env.lookup(expr[0].value) #get a reference to the operator
-        #f = evals(expr[0].value, env)
+        #f = env.lookup(expr[0].value) #get a reference to the operator
+        #print("about to call f=evals(expr[0]..) where expr is " + str(psr.tree_token2tuple(expr)) + " and expr[0] is " + str(expr[0]))
+        f = evals(expr[0], env)
       print("evaluating " + str(f))
       l_args = [evals(ex, env) for ex in expr[1:]]
-      result = f(*l_args)
+      print("l_args is " + str(l_args))
+      result = f(*l_args) #call the python procedure representing the scheme procedure
       return result
       '''
       result = l_args.pop(0)
