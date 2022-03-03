@@ -47,6 +47,7 @@ def evals(expr, env=genv):
     elif(expr[0].value in env):
       #print("running procedure call")
       f = env[expr[0].value] #get a reference to the operator
+      print("evaluating " + str(f))
       l_args = [evals(ex, env) for ex in expr[1:]]
       result = l_args.pop(0)
       while(l_args):
