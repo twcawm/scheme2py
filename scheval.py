@@ -24,8 +24,10 @@ class Env(dict):
     self.enclosing = enclosing #reference to enclosing environment. for global env, this is None
   def lookup(self, name):
     if(name in self):
+      print("found " + name + " in current env")
       return self[name]
     else:
+      print("didn't find " + name + " in current env")
       return self.enclosing.lookup(name)
 
 def global_environment():
@@ -36,13 +38,23 @@ def global_environment():
 
 genv = global_environment()
 
+class Proc(object): #user-defined procedure (lambda)
+  def __init__(self, params, body, env):
+    self.params = params
+    self.body = body
+    self.env = env
+  def __call__(self, *l_args):
+    clos = Env(enclosing = self.env) #create a closure environment with encloding environment env
+    clos.update(zip(self.params, l_args)) #update the closure environment with parameter-argument pairs
+    return evals(self.body, clos) 
+
 def evals(expr, env=genv):
   print("environment is " + str(env.keys()))
   if(isinstance(expr, schtoken.Token)):
     if(expr.type == "number"):
       return expr.value
     elif(expr.type == "identifier"):
-      return env[expr.value]
+      return env.lookup(expr.value)
 
   elif(isinstance(expr, list)):
     if(expr[0].value == "define"):
@@ -50,13 +62,21 @@ def evals(expr, env=genv):
       print("in define " + ident.value + str(ex))
       env[ident.value] = evals(ex, env) 
       print("after define, environment is " + str(env.keys()))
-    elif(expr[0].value in env):
+    elif(expr[0].value == "lambda"):
+      (_lambda, params_tok, body) = expr
+      params = [p.value for p in params_tok] #get values out of the list of tokens
+      return Proc(params, body, env)
+    else:#(expr[0].value in env):
       #print("running procedure call")
-      f = env[expr[0].value] #get a reference to the operator
+      f = env.lookup(expr[0].value) #get a reference to the operator
       print("evaluating " + str(f))
       l_args = [evals(ex, env) for ex in expr[1:]]
+      result = f(*l_args)
+      return result
+      '''
       result = l_args.pop(0)
       while(l_args):
         result = f(result,l_args.pop(0))
       return result
+      '''
 

@@ -27,3 +27,11 @@ also note:
 technically in Scheme, an identifier is any "sequence of non-delimiter
 characters that does not begin with either of the characters `#' or `,'
 and is not syntactically a number"
+
+procedures/ variadic arguments:
+ in scheme, things like (+ 3 4 5) work, but not for all operators (e.g. expt)
+ in python, things like operator.add(2, 3) can only take specified amounts of operands (2 in that case)
+ so we would have to special-case the various python operators to handle these situations
+ instead, I opted to just limit scheme mainly to python's number of operands for builtins,
+   so e.g. (+ 2 4) would typically fail.
+ but! for user-defined functions, there is no limitation!  so feel free to redefine such things! possibilities are endless!
