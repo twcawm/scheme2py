@@ -13,34 +13,39 @@ class Parser:
     self.l_tokens = l_tokens
 
   def get_syntax_tree(self):
-    if(not self.token_tree):
-      toks = copy.deepcopy(self.l_tokens) #make copy since we will parse this using pop
+    toks = copy.deepcopy(self.l_tokens) #make copy since we will parse this using pop
         #todo: investigate - do we need deep copy here?  or can we just use list copy
-      self.token_tree = self.parse(toks)
-      self.lex_tree = self.tree_token2lex(self.token_tree)
+    self.token_tree = self.parse(toks)
+    self.lex_tree = self.tree_token2lex(self.token_tree)
     return self.token_tree
 
   def tree_token2lex(self, tree):
-    result = []
-    for item in tree:
-      if(isinstance(item,list)):
-        result.append(self.tree_token2lex(item))
-      elif(isinstance(item,schtoken.Token)): #not a list, so is a token
-        result.append(item.value)
-      else:
-        print("error in tree_token2lex: something was not a list or a token")
-    return result
+    if(isinstance(tree, list)):
+      result = []
+      for item in tree:
+        if(isinstance(item,list)):
+          result.append(self.tree_token2lex(item))
+        elif(isinstance(item,schtoken.Token)): #not a list, so is a token
+          result.append(item.value)
+        else:
+          print("error in tree_token2lex: something was not a list or a token")
+      return result
+    elif(isinstance(tree, schtoken.Token)):
+      return tree.value
 
   def tree_token2tuple(self, tree):
-    result = []
-    for item in tree:
-      if(isinstance(item,list)):
-        result.append(self.tree_token2tuple(item))
-      elif(isinstance(item,schtoken.Token)): #not a list, so is a token
-        result.append((item.type, item.value))
-      else:
-        print("error in tree_token2tuple: something was not a list or a token")
-    return result
+    if(isinstance(tree, list)):
+      result = []
+      for item in tree:
+        if(isinstance(item,list)):
+          result.append(self.tree_token2tuple(item))
+        elif(isinstance(item,schtoken.Token)): #not a list, so is a token
+          result.append((item.type, item.value))
+        else:
+          print("error in tree_token2tuple: something was not a list or a token")
+      return result
+    elif(isinstance(tree, schtoken.Token)):
+      return (tree.type, tree.value)
 
   def print_token_tree(self):
     tuple_tree = self.tree_token2tuple(self.token_tree)
