@@ -1,6 +1,7 @@
 #rudimentary evaluator
 import schtoken
 import operator
+import math
 import schparser #for testing purposes
 
 psr = schparser.Parser()
@@ -18,6 +19,8 @@ d_binary = {'+': operator.add,
             '>': operator.gt
             } 
 
+d_builtins = {'pi': math.pi}
+
 #we need the varadic parameter because of how we make use of this as an operator.
 # typically in this implementation we call operators with fbegin(old_result, new_arg) 
 # for the special case of fbegin, we expect to return the result new_arg, ignoring old_result.
@@ -27,16 +30,17 @@ class Env(dict):
     self.enclosing = enclosing #reference to enclosing environment. for global env, this is None
   def lookup(self, name):
     if(name in self):
-      print("found " + name + " in current env")
+      #print("found " + name + " in current env")
       return self[name]
     else:
-      print("didn't find " + name + " in current env")
+      #print("didn't find " + name + " in current env")
       return self.enclosing.lookup(name)
 
 def global_environment():
   #return a global environment
   genv = Env()
   genv.update(d_binary)
+  genv.update(d_builtins)
   return genv
 
 genv = global_environment()
@@ -52,7 +56,7 @@ class Proc(object): #user-defined procedure (lambda)
     return evals(self.body, clos) 
 
 def evals(expr, env=genv):
-  print("environment is " + str(env.keys()))
+  #print("environment is " + str(env.keys()))
   if(isinstance(expr, schtoken.Token)):
     if(expr.type == "number"):
       return expr.value
@@ -62,9 +66,9 @@ def evals(expr, env=genv):
   elif(isinstance(expr, list)): #it might be possible to clear up the conditional logic here / refactor
     if((not isinstance(expr[0],list)) and expr[0].value == "define"):
       (_define, ident, ex) = expr
-      print("in define " + ident.value + str(ex))
+      #print("in define " + ident.value + str(ex))
       env[ident.value] = evals(ex, env) 
-      print("after define, environment is " + str(env.keys()))
+      #print("after define, environment is " + str(env.keys()))
     elif((not isinstance(expr[0],list)) and expr[0].value == "lambda"):
       (_lambda, params_tok, body) = expr
       params = [p.value for p in params_tok] #get values out of the list of tokens
@@ -77,9 +81,9 @@ def evals(expr, env=genv):
         #f = env.lookup(expr[0].value) #get a reference to the operator
         #print("about to call f=evals(expr[0]..) where expr is " + str(psr.tree_token2tuple(expr)) + " and expr[0] is " + str(expr[0]))
         f = evals(expr[0], env)
-      print("evaluating " + str(f))
+      #print("evaluating " + str(f))
       l_args = [evals(ex, env) for ex in expr[1:]]
-      print("l_args is " + str(l_args))
+      #print("l_args is " + str(l_args))
       result = f(*l_args) #call the python procedure representing the scheme procedure
       return result
       '''
