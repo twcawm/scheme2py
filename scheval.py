@@ -16,7 +16,8 @@ d_binary = {'+': operator.add,
             'expt': operator.pow,
             '<': operator.lt,
             'begin': fbegin, #this is tricky - inspired by norvig.com/lispy.html
-            '>': operator.gt
+            '>': operator.gt,
+            '=': operator.eq
             } 
 
 d_builtins = {'pi': math.pi}
@@ -45,14 +46,14 @@ def global_environment():
 
 genv = global_environment()
 
-class Proc(object): #user-defined procedure (lambda)
+class Closure(object): #user-defined procedure (lambda)
   def __init__(self, params, body, env):
     self.params = params
-    self.body = body
-    self.env = env
+    self.body = body #store the actual syntax tree
+    self.env = env #store the environment at the time of definition! this creates a closure
   def __call__(self, *l_args):
     clos = Env(enclosing = self.env) #create a closure environment with encloding environment env
-    clos.update(zip(self.params, l_args)) #update the closure environment with parameter-argument pairs
+    clos.update(zip(self.params, l_args)) #update the closure environment with parameter-argument (formal param, actual param/argument) pairs
     return evals(self.body, clos) 
 
 def evals(expr, env=genv):
@@ -71,8 +72,15 @@ def evals(expr, env=genv):
       #print("after define, environment is " + str(env.keys()))
     elif((not isinstance(expr[0],list)) and expr[0].value == "lambda"):
       (_lambda, params_tok, body) = expr
-      params = [p.value for p in params_tok] #get values out of the list of tokens
-      return Proc(params, body, env)
+      params = [p.value for p in params_tok] #get (formal) parameter names out of the list of tokens
+      return Closure(params, body, env) #closure is stored as an instance of Closure, which is callable.
+    elif((not isinstance(expr[0],list)) and expr[0].value == "if"):
+      (_if, condition, ptrue, pfalse) = expr
+      if(evals(condition, env)):
+        runexp = ptrue
+      else:
+        runexp = pfalse
+      return evals(runexp, env)
     else:#(expr[0].value in env): #run a procedure call
       #print("running procedure call")
       if(isinstance(expr[0], list)):
@@ -85,6 +93,9 @@ def evals(expr, env=genv):
       l_args = [evals(ex, env) for ex in expr[1:]]
       #print("l_args is " + str(l_args))
       result = f(*l_args) #call the python procedure representing the scheme procedure
+        #note: this ties into how we defined 'begin'.
+        #  we unpack the list of evaluated argument expressions
+        #  for begin, this means we evaluate the arguments in order, but only return the result of the final one.  this is the desired behavior
       return result
       '''
       result = l_args.pop(0)
