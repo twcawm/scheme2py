@@ -17,5 +17,6 @@ the interpreter can currently handle user-defined first-class functions and clos
 
 many language details are left out for brevity - the main idea here is to demonstrate the function/closure semantics.
 
-todo: a few updates to lexical analysis would be nice.  for example "circle-area" is not parsed as a single identifier (but in scheme, it is).  some attention to detail is needed to lex Scheme identifiers correctly - will have to do some research on those specifications.
+some attention to detail is needed to lex Scheme identifiers correctly - will have to do some research on those specifications.
+in fact, we will basically allow all symbols, even ones like "+" or "-", to be identifiers of the same class that "varA, i" etc would be in most languages.  this is a more flexible definition, which simplifies the process of re-defining operators  as simply an instance of the general operation of defining a variable.
 could also potentially update some of the builtin functions to accept the correct number of parameters. e.g. (+ 1 2 3) in scheme cannot be directly translated to operator.add since add only accepts 2 parameters, etc.
