@@ -6,13 +6,14 @@ class Token:
     self.value = None
 
 class Tokenizer:
-  #l_symbols = [r"(", r")", r"+", r"-", r"*", r"/", r'<', r'>', r'='] #have to update this later
   l_symbols = [r"(", r")"] #we're basically only using this category for parentheses
   re_symbol = r'[' +re.escape(r"".join(l_symbols)) + r']'
   re_number = r"\d*\.\d+|\d+(?!\.)"
-  re_identifier = r"[\w\-+*<>=/?!]+" #+ means at least 1.  \w means word character.
+  re_identifier = r"[\w\-+*<>=/?!.:$%_~&^]+" 
+    #+ means at least 1.  \w means word character.
     #identifier may have to be updated since scheme allows more identifiers than typical.
     #only - has to be escaped inside of a regex set []
+    #got list of additional special characters from https://www.cs.cmu.edu/Groups/AI/html/r4rs/r4rs_4.html
   re_string_const = r'"[^"\n]*"' #starts with ".  [^...] denotes COMPLEMENT of a group. so match any number of anything except newlines and other ", then end with ".
   #instead of having a regex for keywords, we could just use identifier to capture keywords, then test all identifiers for keyword membership.
 
