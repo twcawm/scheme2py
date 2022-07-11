@@ -3,6 +3,17 @@
 goal: interpret a subset of the Scheme language.  implement in Python 3.
 be able to run interactively (read-eval-print loop)
 
+example interactive interpreter usage:
+```
+<from source directory>$python schrepl.py
+scheme2py:=> (define twice (lambda (x) (* 2 x )))
+None
+scheme2py:=> (define repeat (lambda (f) (lambda (x) (f (f x)))))
+None
+scheme2py:=> ( (repeat twice) 10)
+40.0
+```
+
 1. lexical analysis/scanning/tokenizing: transform Scheme string into a list of tokens/lexemes
 2. parsing: transform list of tokens into syntax tree / abstract syntax tree
 3. evaluation: execute the syntax tree by generating values from expressions.  note that this is not just a high-level explanation - it is essentially how we implement the evaluation procedure here, as well.
