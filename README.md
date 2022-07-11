@@ -5,12 +5,12 @@ be able to run interactively (read-eval-print loop)
 
 example interactive interpreter usage:
 ```
-<from source directory>$python schrepl.py
-scheme2py:=> (define twice (lambda (x) (* 2 x )))
+<from source directory>$python schrepl.py #<-- start read-eval-print loop python program
+scheme2py:=> (define twice (lambda (x) (* 2 x ))) #<-- define a function to multiply the argument by 2
 None
-scheme2py:=> (define repeat (lambda (f) (lambda (x) (f (f x)))))
+scheme2py:=> (define repeat (lambda (f) (lambda (x) (f (f x))))) #<-- define a function to repeat another function
 None
-scheme2py:=> ( (repeat twice) 10)
+scheme2py:=> ( (repeat twice) 10) #<-- we can pass the "twice" function to the "repeat" function, then apply that function to 10.  this will apply "twice" two times to the argument, yielding the equivalent of (twice (twice 10 ))
 40.0
 ```
 
