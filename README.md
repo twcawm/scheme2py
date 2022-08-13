@@ -31,3 +31,9 @@ many language details are left out for brevity - the main idea here is to demons
 some attention to detail is needed to lex Scheme identifiers correctly - will have to do some research on those specifications.
 in fact, we will basically allow all symbols, even ones like "+" or "-", to be identifiers of the same class that "varA, i" etc would be in most languages.  this is a more flexible definition, which simplifies the process of re-defining operators  as simply an instance of the general operation of defining a variable.
 could also potentially update some of the builtin functions to accept the correct number of parameters. e.g. (+ 1 2 3) in scheme cannot be directly translated to operator.add since add only accepts 2 parameters, etc.
+note that currently a special case of lambda (lambda x ...) is currently not supported.  this form of lambda supports variadic argument x.  currently this only supports (lambda (x) ...)
+more detail: syntax: (lambda formals body1 body2 ...)
+"If formals is a proper list of variables, e.g., (x y z), each variable is bound to the corresponding actual parameter."
+"If formals is a single variable (not in a list), e.g., z, it is bound to a list of the actual parameters."
+"If formals is an improper list of variables terminated by a variable, e.g., (x y . z), each variable but the last is bound to the corresponding actual parameter. The last variable is bound to a list of the remaining actual parameters. An exception with condition type &assertion is raised if too few actual parameters are supplied."
+(and we only support the first of those 3 cases, as it's the most critical).
