@@ -37,3 +37,15 @@ more detail: syntax: (lambda formals body1 body2 ...)
 "If formals is a single variable (not in a list), e.g., z, it is bound to a list of the actual parameters."
 "If formals is an improper list of variables terminated by a variable, e.g., (x y . z), each variable but the last is bound to the corresponding actual parameter. The last variable is bound to a list of the remaining actual parameters. An exception with condition type &assertion is raised if too few actual parameters are supplied."
 (and we only support the first of those 3 cases, as it's the most critical).
+
+note also that the lexical scoping bug apparent in the current version of "scheme2hask" is not present here:
+```
+scheme2py:=> (define x 3)
+None
+scheme2py:=> (define f (lambda (n) (begin (define x n) x ) ) )
+None
+scheme2py:=> (f 5)
+5.0
+scheme2py:=> x
+3.0
+```
