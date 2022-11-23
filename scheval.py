@@ -35,7 +35,10 @@ class Env(dict):
       return self[name]
     else:
       #print("didn't find " + name + " in current env")
-      return self.enclosing.lookup(name)
+      if self.enclosing:
+        return self.enclosing.lookup(name)
+      else:
+        print("unbound variable: " + name)
 
 def global_environment():
   #return a global environment
