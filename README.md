@@ -54,7 +54,7 @@ note: some expressions in which sequences of expressions are allowed in addition
 ``` 
 (define f (lambda (n) (define x n) x ) )
 ```
-are currently not supported - for these instances though, we can always replace the sequence of expr with a single (begin ...) expr, as a workaround:
+are currently not supported - for these instances however, we can always replace the sequence of expr with a single (begin ...) expr, as a workaround:
 ```
 (define f (lambda (n) (begin (define x n) x ) ) )
 ```
