@@ -49,3 +49,12 @@ scheme2py:=> (f 5)
 scheme2py:=> x
 3.0
 ```
+
+note: some expressions in which sequences of expressions are allowed in addition to single expressions, such as 
+``` 
+(define f (lambda (n) (define x n) x ) )
+```
+are currently not supported - for these instances though, we can always replace the sequence of expr with a single (begin ...) expr, as a workaround:
+```
+(define f (lambda (n) (begin (define x n) x ) ) )
+```
