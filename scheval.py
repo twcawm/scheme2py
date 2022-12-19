@@ -110,9 +110,3 @@ def evals(expr, env=genv):
             #  we unpack the list of evaluated argument expressions
             #  for begin, this means we evaluate the arguments in order, but only return the result of the final one.  this is the desired behavior
             return result
-            '''
-      result = l_args.pop(0)
-      while(l_args):
-        result = f(result,l_args.pop(0))
-      return result
-      '''
