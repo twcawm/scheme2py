@@ -17,7 +17,7 @@ d_binary = {'+': operator.add,
             '/': operator.truediv,
             'expt': operator.pow,
             '<': operator.lt,
-            'begin': fbegin,  # this is tricky - inspired by norvig.com/lispy.html
+            'begin': fbegin,
             '>': operator.gt,
             '=': operator.eq
             }
@@ -58,15 +58,15 @@ genv = global_environment()
 
 class Closure(object):  # user-defined procedure (lambda)
     def __init__(self, params, body, env):
-        self.params = params
-        self.body = body  # store the actual syntax tree
+        self.params = params  # the formal parameters
+        self.body = body  # store the actual syntax tree of the body
         self.env = env  # store the environment at the time of definition! this creates a closure
 
     def __call__(self, *l_args):
-        clos = Env(enclosing=self.env)  # create a closure environment with encloding environment env
-        clos.update(zip(self.params,
+        clos_env = Env(enclosing=self.env)  # create a closure environment with enclosing environment env
+        clos_env.update(zip(self.params,
                         l_args))  # update the closure environment with parameter-argument (formal param, actual param/argument) pairs
-        return evals(self.body, clos)
+        return evals(self.body, clos_env)
 
 
 def evals(expr, env=genv):
