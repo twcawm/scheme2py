@@ -8,7 +8,7 @@ psr = schparser.Parser()
 
 
 def fbegin(*l):  # fbegin here is defined out of convenience to fit the same format as other operators
-    return l[-1]
+    return l[-1]  # input: a variable number of arguments (already evaluated).  output: the last argument.
 
 
 d_binary = {'+': operator.add,
@@ -94,7 +94,7 @@ def evals(expr, env=genv):
             else:
                 runexp = pfalse
             return evals(runexp, env)
-        else:  # (expr[0].value in env): #run a procedure call
+        else:  # (expr[0].value in env): #run a procedure call ("combination")
             # print("running procedure call")
             if isinstance(expr[0], list):
                 f = evals(expr[0], env)  # recurse til expr[0] is a token (with a value)
