@@ -2,10 +2,6 @@
 import schtoken
 import operator
 import math
-import schparser  # for testing purposes
-
-psr = schparser.Parser()
-
 
 def fbegin(*l):  # fbegin here is defined out of convenience to fit the same format as other operators
     return l[-1]  # input: a variable number of arguments (already evaluated).  output: the last argument.
