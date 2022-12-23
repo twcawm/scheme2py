@@ -3,10 +3,13 @@ import schtoken
 import operator
 import math
 
-def fbegin(*l):  # fbegin here is defined out of convenience to fit the same format as other operators
+
+def f_begin(*l):  # f_begin here is defined out of convenience to fit the same format as other operators
     return l[-1]  # input: a variable number of arguments (already evaluated).  output: the last argument.
 
-def f_eq(a1, a2): # initial attempt at scheme's "eq?" predicate.  might want to test this to see if it behaves similarly.
+
+def f_eq(a1,
+         a2):  # initial attempt at scheme's "eq?" predicate.  might want to test this to see if it behaves similarly.
     return (a1 is a2)
 
 
@@ -16,7 +19,7 @@ d_binary = {'+': operator.add,
             '/': operator.truediv,
             'expt': operator.pow,
             '<': operator.lt,
-            'begin': fbegin,
+            'begin': f_begin,
             '>': operator.gt,
             '=': operator.eq,
             'eq?': f_eq,
@@ -30,16 +33,16 @@ d_builtins = {'pi': math.pi,
               '#f': False}
 
 
-# we need the varadic parameter because of how we make use of this as an operator.
-# typically in this implementation we call operators with fbegin(old_result, new_arg) 
-# for the special case of fbegin, we expect to return the result new_arg, ignoring old_result.
+# we need the variadic parameter because of how we make use of this as an operator.
+# typically in this implementation we call operators with f_begin(old_result, new_arg)
+# for the special case of f_begin, we expect to return the result new_arg, ignoring old_result.
 
 class Env(dict):
     def __init__(self, enclosing=None):
         self.enclosing = enclosing  # reference to enclosing environment. for global env, this is None
 
     def lookup(self, name):
-        if (name in self):
+        if name in self:
             # print("found " + name + " in current env")
             return self[name]
         else:
@@ -70,7 +73,7 @@ class Closure(object):  # user-defined procedure (lambda)
     def __call__(self, *l_args):
         clos_env = Env(enclosing=self.env)  # create a closure environment with enclosing environment env
         clos_env.update(zip(self.params,
-                        l_args))  # update the closure environment with parameter-argument (formal param, actual param/argument) pairs
+                            l_args))  # update the closure environment with parameter-argument (formal param, actual param/argument) pairs
         return evals(self.body, clos_env)
 
 
