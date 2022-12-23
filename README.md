@@ -66,4 +66,9 @@ note: currently we support 2 equality operations: `=` (corresponding to `==` or 
 ```
 (begin (define a 1) (define b 1) (eq? a b)) ; evals to False, because a and b are both internally represented as floats; this corresponds to (eq? 1.0 1.0) in Scheme, which is also False, rather than (eq? 1 1) which is True...
 ```
-
+```
+(eq? 1 1) ; evals to False; corresponds to setting a = 1.0, b = 1.0, a is b in Python (with integers, in python, this would work!)
+```
+```
+(equal? 1 1) ; evals to True; corresponds to setting a = 1.0, b = 1.0, a == b in Python
+```
