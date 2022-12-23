@@ -6,6 +6,9 @@ import math
 def fbegin(*l):  # fbegin here is defined out of convenience to fit the same format as other operators
     return l[-1]  # input: a variable number of arguments (already evaluated).  output: the last argument.
 
+def f_eq(a1, a2): # initial attempt at scheme's "eq?" predicate.  might want to test this to see if it behaves similarly.
+    return (a1 is a2)
+
 
 d_binary = {'+': operator.add,
             '-': operator.sub,
@@ -15,7 +18,8 @@ d_binary = {'+': operator.add,
             '<': operator.lt,
             'begin': fbegin,
             '>': operator.gt,
-            '=': operator.eq
+            '=': operator.eq,
+            'eq?': f_eq
             }
 
 d_builtins = {'pi': math.pi,
