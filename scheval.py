@@ -8,8 +8,7 @@ def f_begin(*l):  # f_begin here is defined out of convenience to fit the same f
     return l[-1]  # input: a variable number of arguments (already evaluated).  output: the last argument.
 
 
-def f_eq(a1,
-         a2):  # initial attempt at scheme's "eq?" predicate.  might want to test this to see if it behaves similarly.
+def f_eq(a1, a2):  # initial attempt at scheme's "eq?" predicate.  might want to test this to see if it behaves similarly.
     return (a1 is a2)
 
 
