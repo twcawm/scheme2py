@@ -19,7 +19,8 @@ d_binary = {'+': operator.add,
             'begin': fbegin,
             '>': operator.gt,
             '=': operator.eq,
-            'eq?': f_eq
+            'eq?': f_eq,
+            'not': operator.not_
             }
 
 d_builtins = {'pi': math.pi,
