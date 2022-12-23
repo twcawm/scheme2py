@@ -9,7 +9,7 @@ class Tokenizer:
   l_symbols = [r"(", r")"] #we're basically only using this category for parentheses
   re_symbol = r'[' +re.escape(r"".join(l_symbols)) + r']'
   re_number = r"\d*\.\d+|\d+(?!\.)"
-  re_identifier = r"[\w\-+*<>=/?!.:$%_~&^]+" 
+  re_identifier = r"[\w\-+*<>=/?!.:$#%_~&^]+" 
     #+ means at least 1.  \w means word character.
     #identifier may have to be updated since scheme allows more identifiers than typical.
     #only - has to be escaped inside of a regex set []
