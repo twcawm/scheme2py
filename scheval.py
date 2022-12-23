@@ -21,6 +21,7 @@ d_binary = {'+': operator.add,
             'begin': f_begin,
             '>': operator.gt,
             '=': operator.eq,
+            'equal?': operator.eq,
             'eq?': f_eq,
             'not': operator.not_
             }
