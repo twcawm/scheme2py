@@ -10,7 +10,8 @@ psr = schparser.Parser()
 #tok.set_input("(define area- (- 3 4))")
 #tok.set_input("(begin (define circle-area (lambda (r) (* pi (* r r)))) (circle-area 3))" )
 #tok.set_input("true") #boolean works
-tok.set_input("#f") # hashed boolean val does not work! is parsed as "f" instead of #f"
+#tok.set_input("#f") # hashed boolean val now works
+tok.set_input("(begin (define a 1) (define b a) (eq? a b))")
 #tok.set_input("(begin (define twice (lambda (x) (* 2 x))) (twice 5))") #works
 #tok.set_input("(begin (define fds (lambda (x) (+ x 1))) (fds 3))") #works
 #tok.set_input("((lambda (x) (+ x 1)) 2)") #fixed! works
