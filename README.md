@@ -59,7 +59,11 @@ are currently not supported - for these instances however, we can always replace
 (define f (lambda (n) (begin (define x n) x ) ) )
 ```
 
-note: currently we support 2 equality operations: = (corresponding to == or operator.eq in python), 'equal?' is a synonym for =, and 'eq?' which corresponds to "is" in python (test whether the identifiers are bound to the same object in memory).  because of how we treat numerical values currently (everything is a float!) this has some funny implications:
+note: currently we support 2 equality operations: `=` (corresponding to == or operator.eq in python), 'equal?' is a synonym for =, and 'eq?' which corresponds to "is" in python (test whether the identifiers are bound to the same object in memory).  because of how we treat numerical values currently (everything is a float!) this has some funny implications:
+```
 (begin (define a 1) (define b a) (eq? a b)) ; evals to True, as expected; b is just an alias for a
+```
+```
 (begin (define a 1) (define b 1) (eq? a b)) ; evals to False, because a and b are both internally represented as floats; this corresponds to (eq? 1.0 1.0) in Scheme, which is also False, rather than (eq? 1 1) which is True...
+```
 
