@@ -18,7 +18,11 @@ d_binary = {'+': operator.add,
             '=': operator.eq
             }
 
-d_builtins = {'pi': math.pi}
+d_builtins = {'pi': math.pi,
+              'true': True,
+              '#t': True,
+              'false': False,
+              '#f': False}
 
 
 # we need the varadic parameter because of how we make use of this as an operator.
