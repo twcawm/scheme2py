@@ -10,13 +10,11 @@ def run_file(filename):
     f_lines = f.readlines()
     for fl in f_lines:
       print(fl)
-  '''
-  tokenizer.set_input(str_in)
-  parser.set_input(tokenizer.l_tokens)
-  abstract_syntax_tree = parser.get_syntax_tree()
-  str_out = scheval.evals(abstract_syntax_tree)
-  print(str_out)
-  '''
+      tokenizer.set_input(fl)
+      parser.set_input(tokenizer.l_tokens)
+      abstract_syntax_tree = parser.get_syntax_tree()
+      str_out = scheval.evals(abstract_syntax_tree)
+      print(str_out)
 repl_commands[":run"] = run_file
 for cmd in [":quit",":q",":e",":exit"]:
   repl_commands[cmd] = exit
