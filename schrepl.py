@@ -30,6 +30,7 @@ while(True):
   preparse = str_in.split()
   if preparse[0] in repl_commands:
     print("going to call " + str(repl_commands[preparse[0]]) + " with arguments " + str(preparse[1:]))
+    repl_commands[preparse[0]](*(preparse[1:]))
     continue
     #repl_commands[preparse[0]](preparse[1:])
   else:
