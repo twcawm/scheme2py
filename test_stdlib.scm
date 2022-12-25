@@ -5,3 +5,4 @@
 (define a (delay (+ 4 5)))
 a
 (a)
+(force a)
