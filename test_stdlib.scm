@@ -2,3 +2,6 @@
 (define a (cons 7 8) )
 (define b (cons 1 a) )
 (cdr (cdr b ))
+(define a (delay (+ 4 5)))
+a
+(a)
