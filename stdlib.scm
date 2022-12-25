@@ -2,3 +2,4 @@
 (define car (lambda (z) (z (lambda (p q) p ))) )
 (define cdr (lambda (z) (z (lambda (p q) q ))) )
 (define delay (lambda (expr) (lambda () expr)))
+(define force (lambda (expr) (expr)))
