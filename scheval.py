@@ -8,7 +8,8 @@ def f_begin(*l):  # f_begin here is defined out of convenience to fit the same f
     return l[-1]  # input: a variable number of arguments (already evaluated).  output: the last argument.
 
 
-def f_eq(a1, a2):  # initial attempt at scheme's "eq?" predicate.  might want to test this to see if it behaves similarly.
+def f_eq(a1,
+         a2):  # initial attempt at scheme's "eq?" predicate.  might want to test this to see if it behaves similarly.
     return (a1 is a2)
 
 
@@ -96,25 +97,26 @@ def evals(expr, env=genv):
             params = [p.value for p in params_tok]  # get (formal) parameter names out of the list of tokens
             return Closure(params, body, env)  # closure is stored as an instance of Closure, which is callable.
         elif (not isinstance(expr[0], list)) and expr[0].value == "if":
-            (_if, condition, ptrue, pfalse) = expr
+            (_if, condition, consequent, alternative) = expr  # "consequent" and "alternative" refer to:
+            # if(): consequent; else: alternative.  consequent and alternative are conventional scheme terminology
             if evals(condition, env):
-                runexp = ptrue
+                run_exp = consequent
             else:
-                runexp = pfalse
-            return evals(runexp, env)
+                run_exp = alternative
+            return evals(run_exp, env)
         else:  # (expr[0].value in env): #run a procedure call ("combination")
             # print("running procedure call")
             if isinstance(expr[0], list):
                 f = evals(expr[0], env)  # recurse til expr[0] is a token (with a value)
             else:  # is not a list, so is a token
-                # f = env.lookup(expr[0].value) #get a reference to the operator
-                # print("about to call f=evals(expr[0]..) where expr is " + str(psr.tree_token2tuple(expr)) + " and expr[0] is " + str(expr[0]))
+                # f = env.lookup(expr[0].value) #get a reference to the operator print("about to call f=evals(expr[
+                # 0]..) where expr is " + str(psr.tree_token2tuple(expr)) + " and expr[0] is " + str(expr[0]))
                 f = evals(expr[0], env)
             # print("evaluating " + str(f))
             l_args = [evals(ex, env) for ex in expr[1:]]
             # print("l_args is " + str(l_args))
             result = f(*l_args)  # call the python procedure representing the scheme procedure
-            # note: this ties into how we defined 'begin'.
-            #  we unpack the list of evaluated argument expressions
-            #  for begin, this means we evaluate the arguments in order, but only return the result of the final one.  this is the desired behavior
+            # note: this ties into how we defined 'begin'. we unpack the list of evaluated argument expressions for
+            # begin, this means we evaluate the arguments in order, but only return the result of the final one.
+            # this is the desired behavior
             return result
