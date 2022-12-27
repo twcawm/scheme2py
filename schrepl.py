@@ -14,9 +14,9 @@ def run_file(filename):
             print(fl)
             tokenizer.set_input(fl)
             parser.set_input(tokenizer.l_tokens)
-            abstract_syntax_tree = parser.get_syntax_tree()
-            str_out = scheval.evals(abstract_syntax_tree)
-            print(str_out)
+            syntax_tree = parser.get_syntax_tree()
+            out_string = scheval.evals(syntax_tree)
+            print(out_string)
 
 
 repl_commands[":run"] = run_file
