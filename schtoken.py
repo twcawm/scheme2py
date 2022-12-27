@@ -16,8 +16,10 @@ class Tokenizer:
     # identifier may have to be updated since scheme allows more identifiers than typical.
     # only - has to be escaped inside of a regex set []
     # got list of additional special characters from https://www.cs.cmu.edu/Groups/AI/html/r4rs/r4rs_4.html
-    re_string_const = r'"[^"\n]*"'  # starts with ".  [^...] denotes COMPLEMENT of a group. so match any number of anything except newlines and other ", then end with ".
-    # instead of having a regex for keywords, we could just use identifier to capture keywords, then test all identifiers for keyword membership.
+    re_string_const = r'"[^"\n]*"'  # starts with ".  [^...] denotes COMPLEMENT of a group. so match any number of
+    # anything except newlines and other ", then end with ".
+    # instead of having a regex for keywords, we could just use identifier to capture keywords, then test all
+    # identifiers for keyword membership.
 
     re_lex_element = "|".join([re_symbol, re_number, re_identifier, re_string_const])
 
