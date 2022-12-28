@@ -4,13 +4,13 @@ import operator
 import math
 
 
-def f_begin(*l):  # f_begin here is defined out of convenience to fit the same format as other operators
-    return l[-1]  # input: a variable number of arguments (already evaluated).  output: the last argument.
+def f_begin(*list_of_expr):  # f_begin here is defined out of convenience to fit the same format as other operators
+    return list_of_expr[-1]  # input: a variable number of arguments (already evaluated).  output: the last argument.
 
 
-def f_eq(a1,
-         a2):  # initial attempt at scheme's "eq?" predicate.  might want to test this to see if it behaves similarly.
-    return (a1 is a2)
+def f_eq(a1, a2):  # initial attempt at scheme's "eq?" predicate.  might want to test this to see if it behaves
+    # similarly.
+    return a1 is a2
 
 
 d_binary = {'+': operator.add,
@@ -62,7 +62,7 @@ def global_environment():
     return genv
 
 
-genv = global_environment()
+global_env = global_environment()
 
 
 class Closure(object):  # user-defined procedure (lambda)
@@ -73,12 +73,12 @@ class Closure(object):  # user-defined procedure (lambda)
 
     def __call__(self, *l_args):
         clos_env = Env(enclosing=self.env)  # create a closure environment with enclosing environment env
-        clos_env.update(zip(self.params,
-                            l_args))  # update the closure environment with parameter-argument (formal param, actual param/argument) pairs
+        clos_env.update(zip(self.params, l_args))  # update the closure environment with parameter-argument
+        # (formal param, actual param/argument) pairs
         return evals(self.body, clos_env)
 
 
-def evals(expr, env=genv):
+def evals(expr, env=global_env):
     # print("environment is " + str(env.keys()))
     if isinstance(expr, schtoken.Token):
         if expr.type == "number":
