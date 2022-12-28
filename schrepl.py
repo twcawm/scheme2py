@@ -30,8 +30,8 @@ parser = schparser.Parser()
 while True:
     str_in = input("scheme2py:=> ")
     pre_parse = str_in.split()
-    if preparse[0] in repl_commands:
-        print("going to call " + str(repl_commands[preparse[0]]) + " with arguments " + str(pre_parse[1:]))
+    if pre_parse[0] in repl_commands:
+        print("going to call " + str(repl_commands[pre_parse[0]]) + " with arguments " + str(pre_parse[1:]))
         repl_commands[pre_parse[0]](*(pre_parse[1:]))
         continue
         # repl_commands[pre_parse[0]](pre_parse[1:])
