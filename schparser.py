@@ -55,10 +55,10 @@ class Parser:
 
     def parse(self, toks):  # we will implement this as essentially a "recursive descent" parser
         # inspiration taken from Peter Norvig's python implementation of scheme https://norvig.com/lispy.html
-        if (not toks):  # if the list is empty
+        if not toks:  # if the list is empty
             print("unexpected end of file")
         tok = toks.pop(0)  # take leading element of tokens list
-        if (tok.value == "("):
+        if tok.value == "(":
             l_expr = []
             # read expressions until a matching closing paren is read
             while toks[0].value != ")":
@@ -66,7 +66,7 @@ class Parser:
             toks.pop(0)  # here, either list is empty (error: no matching closing paren) or
             # next item is ")" (the matching closing paren from the if condition)
             return l_expr  # return the list formed by parsing expressions (a b ... (c ...) )
-        elif (tok.value == ")"):
+        elif tok.value == ")":
             print("unexpected )")
         else:  # all expressions in scheme are either atoms or list expr (...).  here, we return the atom string
             return tok
