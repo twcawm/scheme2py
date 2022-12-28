@@ -53,17 +53,17 @@ class Parser:
         tuple_tree = self.tree_token2tuple(self.token_tree)
         print(tuple_tree)
 
-    def parse(self, toks):  # we will implement this as essentially a "recursive descent" parser
+    def parse(self, token_list):  # we will implement this as essentially a "recursive descent" parser
         # inspiration taken from Peter Norvig's python implementation of scheme https://norvig.com/lispy.html
-        if not toks:  # if the list is empty
+        if not token_list:  # if the list is empty
             print("unexpected end of file")
-        tok = toks.pop(0)  # take leading element of tokens list
+        tok = token_list.pop(0)  # take leading element of tokens list
         if tok.value == "(":
             l_expr = []
             # read expressions until a matching closing paren is read
-            while toks[0].value != ")":
-                l_expr.append(self.parse(toks))  # recursively parse expressions from remaining list
-            toks.pop(0)  # here, either list is empty (error: no matching closing paren) or
+            while token_list[0].value != ")":
+                l_expr.append(self.parse(token_list))  # recursively parse expressions from remaining list
+            token_list.pop(0)  # here, either list is empty (error: no matching closing paren) or
             # next item is ")" (the matching closing paren from the if condition)
             return l_expr  # return the list formed by parsing expressions (a b ... (c ...) )
         elif tok.value == ")":
