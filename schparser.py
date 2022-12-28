@@ -47,7 +47,7 @@ class Parser:
                     print("error in tree_token2tuple: something was not a list or a token")
             return result
         elif isinstance(tree, schtoken.Token):
-            return (tree.type, tree.value)
+            return (tree.type, tree.value)  # pycharm calls these redundant parentheses, but I might prefer them
 
     def print_token_tree(self):
         tuple_tree = self.tree_token2tuple(self.token_tree)
