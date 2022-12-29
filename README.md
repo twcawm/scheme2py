@@ -3,6 +3,8 @@
 goal: interpret a subset of the Scheme language.  implement in Python 3.
 be able to run interactively (read-eval-print loop)
 
+the overall design is a recursive descent parser followed by recursive evaluation.
+
 example interactive interpreter usage:
 ```
 <from source directory>$python schrepl.py #<-- start read-eval-print loop python program
