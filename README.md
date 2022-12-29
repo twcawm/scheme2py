@@ -7,6 +7,8 @@ the overall design is a recursive descent parser followed by recursive evaluatio
 
 in contrast to the scheme2scheme project (Abelson & Sussman's interpreter), we have to lex and parse the text input (Abelson & Sussman's interpreter effectively directly takes the syntax tree as input).  And of course, we have to choose an internal Python representation for all supported Scheme values.
 
+also seemingly in contrast to scheme2sheme, instead of following the mutually recursive apply/eval loop in which compound procedures are evaluated all the way down to the primitive building blocks (only primitives are truly "applied"), scheme2py chooses to directly call the underlying Python representation of compound procedures.
+
 example interactive interpreter usage:
 ```
 <from source directory>$python schrepl.py #<-- start read-eval-print loop python program
