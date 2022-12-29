@@ -37,11 +37,11 @@ d_builtin_procedures = {'+': operator.add,
                         'apply': f_apply
                         }
 
-d_builtins = {'pi': math.pi,
-              'true': True,
-              '#t': True,
-              'false': False,
-              '#f': False}
+d_builtin_values = {'pi': math.pi,
+                    'true': True,
+                    '#t': True,
+                    'false': False,
+                    '#f': False}
 
 
 # we need the variadic parameter because of how we make use of this as an operator.
@@ -68,7 +68,7 @@ def global_environment():
     # return a global environment
     genv = Env()
     genv.update(d_builtin_procedures)
-    genv.update(d_builtins)
+    genv.update(d_builtin_values)
     return genv
 
 
