@@ -122,7 +122,11 @@ def evals(expr, env=global_env):
                 # 0]..) where expr is " + str(psr.tree_token2tuple(expr)) + " and expr[0] is " + str(expr[0]))
                 f = evals(expr[0], env)
             # print("evaluating " + str(f))
-            l_args = [evals(ex, env) for ex in expr[1:]]
+            # attempt to hack f_apply to actually work:
+            if f is f_apply:
+                l_args = expr[1]
+            else:
+                l_args = [evals(ex, env) for ex in expr[1:]]
             # print("l_args is " + str(l_args))
             result = f(*l_args)  # call the python procedure representing the scheme procedure
             # note: this ties into how we defined 'begin'. we unpack the list of evaluated argument expressions for
