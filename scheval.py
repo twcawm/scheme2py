@@ -13,11 +13,12 @@ def f_eq(a1, a2):  # initial attempt at scheme's "eq?" predicate.  might want to
     return a1 is a2
 
 
-# todo: apply has a bug because our internal representation of cons (and therefore of lists) consists of closures,
-# and furthermore cons/car/cdr are implemented as standard library functions on top of the 'lambda' primitive
-# whereas the second argument of the apply function expects a list.  in some sense, our implementation of Scheme
-# actually does not natively support lists!!
+# todo: we have fixed apply so that it works in a sort of hacky way (not really similar to native scheme apply)
+# it requires the unusual syntax (apply funct (a1 a2 a3)) , so we sort of 'invented' a new special case for it
+# which does not exist in regular scheme.  but in our implementation, "apply" is unnecessary/superfluous, and,
+# I wanted to see what it would be like to implement a "new language feature" instead of "just another builtin function"
 def f_apply(procedure, args):  # procedure is a callable and args is probably a list of arguments
+    print("about to call " + str(procedure) + " with args " + str(args))
     return procedure(*args)  # unpack the list of arguments, call the procedure, return the result
 
 
@@ -124,9 +125,20 @@ def evals(expr, env=global_env):
             # print("evaluating " + str(f))
             # attempt to hack f_apply to actually work:
             if f is f_apply:
-                l_args = expr[1].value
+                ''' #debugging a hacky version of "apply".  since "apply" is unnecessary in our implementation, this was
+                mostly just "for fun"
+                print("f is f_apply")
+                print("expr is " + str(expr))
+                print("expr[2] is " + str(expr[2]))
+                print("expr[2].value is " + str(expr[2]))
+                print("[e.value for e in expr[2]] is " + str([e.value for e in expr[2]]))
+                '''
+                l_args = [e.value for e in expr[2]]  # get list of argument values (without evaluating them...)
+                result = f(evals(expr[1], env) , l_args)
+                return result
             else:
                 l_args = [evals(ex, env) for ex in expr[1:]]
+            #l_args = [evals(ex, env) for ex in expr[1:]]
             # print("l_args is " + str(l_args))
             result = f(*l_args)  # call the python procedure representing the scheme procedure
             # note: this ties into how we defined 'begin'. we unpack the list of evaluated argument expressions for
