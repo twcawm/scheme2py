@@ -5,6 +5,8 @@ be able to run interactively (read-eval-print loop)
 
 the overall design is a recursive descent parser followed by recursive evaluation.
 
+in contrast to the scheme2scheme project (Abelson & Sussman's interpreter), we have to lex and parse the text input (Abelson & Sussman's interpreter effectively directly takes the syntax tree as input).  And of course, we have to choose an internal Python representation for all supported Scheme values.
+
 example interactive interpreter usage:
 ```
 <from source directory>$python schrepl.py #<-- start read-eval-print loop python program
