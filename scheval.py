@@ -22,7 +22,7 @@ def f_apply(procedure, args):  # procedure is a callable and args is probably a 
     return procedure(*args)  # unpack the list of arguments, call the procedure, return the result
 
 
-d_binary = {'+': operator.add,
+d_builtin_procedures = {'+': operator.add,
             '-': operator.sub,
             '*': operator.mul,
             '/': operator.truediv,
@@ -33,9 +33,9 @@ d_binary = {'+': operator.add,
             '=': operator.eq,
             'equal?': operator.eq,
             'eq?': f_eq,
-            'not': operator.not_,
-            'apply': f_apply
-            }
+                        'not': operator.not_,
+                        'apply': f_apply
+                        }
 
 d_builtins = {'pi': math.pi,
               'true': True,
@@ -67,7 +67,7 @@ class Env(dict):
 def global_environment():
     # return a global environment
     genv = Env()
-    genv.update(d_binary)
+    genv.update(d_builtin_procedures)
     genv.update(d_builtins)
     return genv
 
