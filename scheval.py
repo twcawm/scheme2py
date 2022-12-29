@@ -23,16 +23,16 @@ def f_apply(procedure, args):  # procedure is a callable and args is probably a 
 
 
 d_builtin_procedures = {'+': operator.add,
-            '-': operator.sub,
-            '*': operator.mul,
-            '/': operator.truediv,
-            'expt': operator.pow,
-            '<': operator.lt,
-            'begin': f_begin,
-            '>': operator.gt,
-            '=': operator.eq,
-            'equal?': operator.eq,
-            'eq?': f_eq,
+                        '-': operator.sub,
+                        '*': operator.mul,
+                        '/': operator.truediv,
+                        'expt': operator.pow,
+                        '<': operator.lt,
+                        'begin': f_begin,
+                        '>': operator.gt,
+                        '=': operator.eq,
+                        'equal?': operator.eq,
+                        'eq?': f_eq,
                         'not': operator.not_,
                         'apply': f_apply
                         }
@@ -134,11 +134,11 @@ def evals(expr, env=global_env):
                 print("[e.value for e in expr[2]] is " + str([e.value for e in expr[2]]))
                 '''
                 l_args = [e.value for e in expr[2]]  # get list of argument values (without evaluating them...)
-                result = f(evals(expr[1], env) , l_args)
+                result = f(evals(expr[1], env), l_args)
                 return result
             else:
                 l_args = [evals(ex, env) for ex in expr[1:]]
-            #l_args = [evals(ex, env) for ex in expr[1:]]
+            # l_args = [evals(ex, env) for ex in expr[1:]]
             # print("l_args is " + str(l_args))
             result = f(*l_args)  # call the python procedure representing the scheme procedure
             # note: this ties into how we defined 'begin'. we unpack the list of evaluated argument expressions for
