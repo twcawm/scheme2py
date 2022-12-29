@@ -124,7 +124,7 @@ def evals(expr, env=global_env):
             # print("evaluating " + str(f))
             # attempt to hack f_apply to actually work:
             if f is f_apply:
-                l_args = expr[1]
+                l_args = expr[1].value
             else:
                 l_args = [evals(ex, env) for ex in expr[1:]]
             # print("l_args is " + str(l_args))
