@@ -10,7 +10,7 @@ tokenizer = schtoken.Tokenizer()
 parser = schparser.Parser()
 
 
-def evalCallback():
+def eval_callback():
     str_in = userInput.get()
     tokenizer.set_input(str_in)
     parser.set_input(tokenizer.l_tokens)
