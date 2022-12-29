@@ -3,9 +3,9 @@
 goal: interpret a subset of the Scheme language.  implement in Python 3.
 be able to run interactively (read-eval-print loop)
 
-the overall design is a recursive descent parser followed by recursive evaluation.
+the overall design is a recursive descent parser followed by (less recursive) evaluation.
 
-in contrast to the scheme2scheme project (Abelson & Sussman's interpreter), we have to lex and parse the text input (Abelson & Sussman's interpreter effectively directly takes the syntax tree as input).  And of course, we have to choose an internal Python representation for all supported Scheme values.
+in contrast to the scheme2scheme project (Abelson & Sussman's interpreter), we have to lex and parse the text input (Abelson & Sussman's interpreter effectively directly takes the syntax tree as input).  And of course, we have to construct an internal Python representation for all supported Scheme values.
 
 also seemingly in contrast to scheme2sheme, instead of following the mutually recursive apply/eval loop in which compound procedures are evaluated all the way down to the primitive building blocks (only primitives are truly "applied"), scheme2py chooses to directly call the underlying Python representation of compound procedures.
 
