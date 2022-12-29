@@ -25,7 +25,7 @@ root.title("scheme2py")
 L1 = Label(root, text="scheme string")
 L1.pack(side=LEFT)
 
-b = Button(root, text="eval", command=evalCallback)
+b = Button(root, text="eval", command=eval_callback)
 b.pack(side=RIGHT)
 
 userInput = StringVar(root)
