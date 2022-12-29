@@ -13,6 +13,10 @@ def f_eq(a1, a2):  # initial attempt at scheme's "eq?" predicate.  might want to
     return a1 is a2
 
 
+def f_apply(procedure, args):  # procedure is a callable and args is probably a list of arguments
+    return procedure(*args)  # unpack the list of arguments, call the procedure, return the result
+
+
 d_binary = {'+': operator.add,
             '-': operator.sub,
             '*': operator.mul,
@@ -24,7 +28,8 @@ d_binary = {'+': operator.add,
             '=': operator.eq,
             'equal?': operator.eq,
             'eq?': f_eq,
-            'not': operator.not_
+            'not': operator.not_,
+            'apply': f_apply
             }
 
 d_builtins = {'pi': math.pi,
