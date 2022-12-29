@@ -14,7 +14,9 @@ def f_eq(a1, a2):  # initial attempt at scheme's "eq?" predicate.  might want to
 
 
 # todo: apply has a bug because our internal representation of cons (and therefore of lists) consists of closures,
-# whereas the second argument of the apply function expects a list
+# and furthermore cons/car/cdr are implemented as standard library functions on top of the 'lambda' primitive
+# whereas the second argument of the apply function expects a list.  in some sense, our implementation of Scheme
+# actually does not natively support lists!!
 def f_apply(procedure, args):  # procedure is a callable and args is probably a list of arguments
     return procedure(*args)  # unpack the list of arguments, call the procedure, return the result
 
