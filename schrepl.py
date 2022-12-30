@@ -15,7 +15,7 @@ def run_file(filename):
             tokenizer.set_input(fl)
             parser.set_input(tokenizer.l_tokens)
             syntax_tree = parser.get_syntax_tree()
-            out_string = scheval.evals(syntax_tree)
+            out_string = scheval.eval_expr(syntax_tree)
             print(out_string)
 
 
@@ -40,5 +40,5 @@ while True:
     tokenizer.set_input(str_in)
     parser.set_input(tokenizer.l_tokens)
     abstract_syntax_tree = parser.get_syntax_tree()
-    str_out = scheval.evals(abstract_syntax_tree)
+    str_out = scheval.eval_expr(abstract_syntax_tree)
     print(str_out)

@@ -32,4 +32,4 @@ print("syntax tree:")
 print(psr.lex_tree)
 # psr.print_token_tree()
 
-print("value: " + str(scheval.evals(ast)))
+print("value: " + str(scheval.eval_expr(ast)))

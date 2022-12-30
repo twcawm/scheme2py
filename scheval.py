@@ -66,10 +66,10 @@ class Env(dict):
 
 def global_environment():
     # return a global environment
-    genv = Env()
-    genv.update(d_builtin_procedures)
-    genv.update(d_builtin_values)
-    return genv
+    env = Env()
+    env.update(d_builtin_procedures)
+    env.update(d_builtin_values)
+    return env
 
 
 global_env = global_environment()
@@ -85,10 +85,10 @@ class Closure(object):  # user-defined procedure (lambda)
         clos_env = Env(enclosing=self.env)  # create a closure environment with enclosing environment env
         clos_env.update(zip(self.params, l_args))  # update the closure environment with parameter-argument
         # (formal param, actual param/argument) pairs
-        return evals(self.body, clos_env)
+        return eval_expr(self.body, clos_env)
 
 
-def evals(expr, env=global_env):
+def eval_expr(expr, env=global_env):
     # print("environment is " + str(env.keys()))
     if isinstance(expr, schtoken.Token):
         if expr.type == "number":
@@ -100,7 +100,7 @@ def evals(expr, env=global_env):
         if (not isinstance(expr[0], list)) and expr[0].value == "define":
             (_define, ident, ex) = expr
             # print("in define " + ident.value + str(ex))
-            env[ident.value] = evals(ex, env)
+            env[ident.value] = eval_expr(ex, env)
             # print("after define, environment is " + str(env.keys()))
         elif (not isinstance(expr[0], list)) and expr[0].value == "lambda":
             (_lambda, params_tok, body) = expr
@@ -109,19 +109,19 @@ def evals(expr, env=global_env):
         elif (not isinstance(expr[0], list)) and expr[0].value == "if":
             (_if, condition, consequent, alternative) = expr  # "consequent" and "alternative" refer to:
             # if(): consequent; else: alternative.  consequent and alternative are conventional scheme terminology
-            if evals(condition, env):
+            if eval_expr(condition, env):
                 run_exp = consequent
             else:
                 run_exp = alternative
-            return evals(run_exp, env)
+            return eval_expr(run_exp, env)
         else:  # (expr[0].value in env): #run a procedure call ("combination")
             # print("running procedure call")
             if isinstance(expr[0], list):
-                f = evals(expr[0], env)  # recurse til expr[0] is a token (with a value)
+                f = eval_expr(expr[0], env)  # recurse til expr[0] is a token (with a value)
             else:  # is not a list, so is a token
                 # f = env.lookup(expr[0].value) #get a reference to the operator print("about to call f=evals(expr[
                 # 0]..) where expr is " + str(psr.tree_token2tuple(expr)) + " and expr[0] is " + str(expr[0]))
-                f = evals(expr[0], env)
+                f = eval_expr(expr[0], env)
             # print("evaluating " + str(f))
             # attempt to hack f_apply to actually work:
             if f is f_apply:
@@ -134,11 +134,11 @@ def evals(expr, env=global_env):
                 print("[e.value for e in expr[2]] is " + str([e.value for e in expr[2]]))
                 '''
                 l_args = [e.value for e in expr[2]]  # get list of argument values (without evaluating them...)
-                result = f(evals(expr[1], env), l_args)
+                result = f(eval_expr(expr[1], env), l_args)
                 return result
             else:
-                l_args = [evals(ex, env) for ex in expr[1:]]
-            # l_args = [evals(ex, env) for ex in expr[1:]]
+                l_args = [eval_expr(ex, env) for ex in expr[1:]]
+            # l_args = [eval_expr(ex, env) for ex in expr[1:]]
             # print("l_args is " + str(l_args))
             result = f(*l_args)  # call the python procedure representing the scheme procedure
             # note: this ties into how we defined 'begin'. we unpack the list of evaluated argument expressions for
