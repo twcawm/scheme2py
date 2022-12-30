@@ -2,7 +2,7 @@
 import schtoken
 import schparser
 import scheval
-
+stdlib_name = "stdlib.scm"
 repl_commands = {}
 
 
@@ -26,6 +26,9 @@ for cmd in [":quit", ":q", ":e", ":exit"]:
 # initialize tokenizer and parser
 tokenizer = schtoken.Tokenizer()
 parser = schparser.Parser()
+
+# load the standard library so that user doesn't have to do it manually every time they open repl:
+run_file(stdlib_name)
 
 while True:
     str_in = input("scheme2py:=> ")
