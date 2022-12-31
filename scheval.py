@@ -94,7 +94,7 @@ class Closure(object):  # user-defined procedure (lambda)
 def eval_expr(expr, env=global_env):
     # print("environment is " + str(env.keys()))
     if isinstance(expr, schtoken.Token):
-        if expr.type == "number":
+        if expr.type in ["number", "string"]:
             return expr.value
         elif expr.type in ["identifier", "symbol"]:
             return env.lookup(expr.value)
