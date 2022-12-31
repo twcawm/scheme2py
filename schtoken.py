@@ -10,7 +10,7 @@ class Token:
 class Tokenizer:
     l_symbols = [r"(", r")"]  # we're basically only using this category for parentheses
     re_symbol = r'[' + re.escape(r"".join(l_symbols)) + r']'
-    re_number = r"-?\d*\.\d+|-?\d+(?!\.)"
+    re_number = r"-?\d*\.\d+|-?\d+\.\d*|-?\d+(?!\.)" #3 possibilities: 0.5/.5/-.1 , 0.5/5./-5. , or integer
     re_identifier = r"[\w\-+*<>=/?!.:$#%_~&^]+"
     # + means at least 1.  \w means word character.
     # identifier may have to be updated since scheme allows more identifiers than typical.
