@@ -7,6 +7,7 @@ class Token:
         self.value = None
 
 #todo: consider separating out integers and floats
+#todo: consider supporting strings/string literals
 class Tokenizer:
     l_symbols = [r"(", r")"]  # we're basically only using this category for parentheses
     re_symbol = r'[' + re.escape(r"".join(l_symbols)) + r']'
