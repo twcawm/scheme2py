@@ -1,0 +1,6 @@
+(define a 5.)
+(define b -.5)
+(define c -5)
+(define d 5)
+(+ c d)
+(+ a c)
