@@ -35,3 +35,19 @@ procedures/ variadic arguments:
  instead, I opted to just limit scheme mainly to python's number of operands for builtins,
    so e.g. (+ 2 4) would typically fail.
  but! for user-defined functions, there is no limitation!  so feel free to redefine such things! possibilities are endless!
+
+previous note about numerical implementation (outdated since we have since supported true integer values): 
+because of how we (previously) treat numerical values, (everything is a float!) this has some funny implications:
+```
+(begin (define a 1) (define b a) (eq? a b)) ; evals to True, as expected; b is just an alias for a
+```
+```
+(begin (define a 1) (define b 1) (eq? a b)) ; evals to False, because a and b are both internally represented as floats; this corresponds to (eq? 1.0 1.0) in Scheme, which is also False, rather than (eq? 1 1) which is True...
+```
+```
+(eq? 1 1) ; evals to False; corresponds to setting a = 1.0, b = 1.0, a is b in Python (with integers, in python, this would work!)
+```
+```
+(equal? 1 1) ; evals to True; corresponds to setting a = 1.0, b = 1.0, a == b in Python
+```
+

@@ -65,18 +65,19 @@ are currently not supported - for these instances however, we can always replace
 (define f (lambda (n) (begin (define x n) x ) ) )
 ```
 
-note: currently we support 2 equality operations: `=` (corresponding to `==` or `operator.eq` in python), `equal?` is a synonym for `=`, and `eq?` which corresponds to "`is`" in python (test whether the identifiers are bound to the same object in memory).  because of how we treat numerical values currently (everything is a float!) this has some funny implications:
+note: currently we support 2 equality operations: `=` (corresponding to `==` or `operator.eq` in python), `equal?` is a synonym for `=`, and `eq?` which corresponds to "`is`" in python (test whether the identifiers are bound to the same object in memory).  
+
 ```
 (begin (define a 1) (define b a) (eq? a b)) ; evals to True, as expected; b is just an alias for a
 ```
 ```
-(begin (define a 1) (define b 1) (eq? a b)) ; evals to False, because a and b are both internally represented as floats; this corresponds to (eq? 1.0 1.0) in Scheme, which is also False, rather than (eq? 1 1) which is True...
+(begin (define a 1) (define b 1) (eq? a b)) ; evals to True, as expected; before we implemented support for integers, this evals to False, because a and b were both internally represented as floats; this corresponds to (eq? 1.0 1.0) in Scheme, which is also False, rather than (eq? 1 1) which is True...
 ```
 ```
-(eq? 1 1) ; evals to False; corresponds to setting a = 1.0, b = 1.0, a is b in Python (with integers, in python, this would work!)
+(eq? 1 1) ; evals to True, as expected; before we implemented support for integers, this evals to False; corresponds to setting a = 1.0, b = 1.0, a is b in Python
 ```
 ```
-(equal? 1 1) ; evals to True; corresponds to setting a = 1.0, b = 1.0, a == b in Python
+(equal? 1 1) ; evals to True
 ```
 
 also note that I have implemented "apply" a bit differently than the native scheme apply.  it sort of combines features of "apply" and "quote" in that the second argument is a literal list, but with no quote / '.  An example is: `(begin (define f1 (lambda (x y) (* x y))) (apply f1 (4 5)))` (in normal scheme, the literal list (4 5) would require quotation).  I did this for a number of reasons.  Primarily because our implementation of scheme does not support "real" lists (all lists in our implementation are built out of functions, for fun), so there was no quick way to translate the second argument of "apply" into the required argument list for the internal application.  therefore I decided to use the syntax tree list directly.  this might have the implication that apply does not work for anything other than literal values.  but it is an interesting experiment in implementing a new language feature rather than just another builtin function (apply is implemented as a 'special case' rather than as a typical procedure evaluation.
