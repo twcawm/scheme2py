@@ -6,11 +6,13 @@ class Token:
         self.type = None
         self.value = None
 
-#todo: consider separating out integers and floats
-#todo: consider supporting strings/string literals
+
+# todo: consider separating out integers and floats
+
 class Tokenizer:
     l_symbols = [r"(", r")"]  # we're basically only using this category for parentheses
     re_symbol = r'[' + re.escape(r"".join(l_symbols)) + r']'
+    re_integer = r"-?\d+(?!\.)"  # just use the previous last possibility for "number"
     re_number = r"-?\d*\.\d+|-?\d+\.\d*|-?\d+(?!\.)"  # 3 possibilities: 0.5/.5/-.1 , 0.5/5./-5. , or integer
     re_identifier = r"[\w\-+*<>=/?!.:$#%_~&^]+"
     # + means at least 1.  \w means word character.
@@ -22,7 +24,7 @@ class Tokenizer:
     # instead of having a regex for keywords, we could just use identifier to capture keywords, then test all
     # identifiers for keyword membership.
 
-    re_lex_element = "|".join([re_symbol, re_number, re_identifier, re_string_const])
+    re_lex_element = "|".join([re_symbol, re_integer, re_number, re_identifier, re_string_const])
 
     compiled_lex_element = re.compile(re_lex_element)
 
@@ -46,6 +48,9 @@ class Tokenizer:
         if re.match(self.re_symbol, lex):
             tok.type = "symbol"
             tok.value = lex
+        elif re.match(self.re_integer, lex):
+            tok.type = "number"
+            tok.value = int(lex)
         elif re.match(self.re_number, lex):
             tok.type = "number"
             tok.value = float(lex)
